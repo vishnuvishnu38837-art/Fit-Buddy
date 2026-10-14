@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="FitBuddy Admin Dashboard">
+
+    <title>FitBuddy | Admin Dashboard</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Main CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+
+<body class="history-page">
+
+<div class="app-shell">
+
+    <!-- ==========================================
+         NAVBAR
+    =========================================== -->
+
+    <nav class="navbar">
+
+        <a href="{{ url_for('admin') }}" class="brand">
+
+            <span class="brand-icon">✦</span>
+
+            <span>
+                Fit<span>Buddy</span>
+            </span>
+
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('admin') }}" class="active">
+                Admin
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </div>
+
+
+        <div class="nav-status">
+            <span class="status-dot"></span>
+            Admin Portal
+        </div>
+
+    </nav>
+
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+
+    <main>
+
+        <!-- PAGE HEADER -->
+
+        <section class="page-header">
+
+            <span class="mini-label">
+                MANAGEMENT DASHBOARD
+            </span>
+
+            <h1>
+                Admin Overview
+            </h1>
+
+            <p>
+                Monitor registered users and generated
+                fitness plans from one place.
+            </p>
+
+        </section>
+
+
+
+        <!-- ==========================================
+             STATISTICS
+        =========================================== -->
+
+        <section class="stats-grid">
+
+            <!-- TOTAL USERS -->
+
+            <div class="stat-card">
+
+                <span>
+                    TOTAL USERS
+                </span>
+
+                <strong>
+                    {{ total_users }}
+                </strong>
+
+                <small>
+                    Registered users
+                </small>
+
+            </div>
+
+
+            <!-- TOTAL PLANS -->
+
+            <div class="stat-card">
+
+                <span>
+                    PLANS GENERATED
+                </span>
+
+                <strong>
+                    {{ total_plans }}
+                </strong>
+
+                <small>
+                    Fitness plans
+                </small>
+
+            </div>
+
+
+            <!-- TOTAL PROFILES -->
+
+            <div class="stat-card">
+
+                <span>
+                    FITNESS PROFILES
+                </span>
+
+                <strong>
+                    {{ total_profiles }}
+                </strong>
+
+                <small>
+                    User profiles
+                </small>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==========================================
+             USER TABLE
+        =========================================== -->
+
+        <section class="admin-card">
+
+            <div class="admin-card-header">
+
+                <div>
+                    <span class="mini-label">
+                        REGISTERED USERS
+                    </span>
+
+                    <h2>
+                        User Overview
+                    </h2>
+                </div>
+
+                <span class="admin-count">
+                    {{ total_users }} Users
+                </span>
+
+            </div>
+
+
+
+            <div class="table-wrapper">
+
+                <table class="admin-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Name</th>
+
+                            <th>Email</th>
+
+                            <th>Plans</th>
+
+                            <th>Registered</th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody>
+
+                        {% for user in users %}
+
+                        <tr>
+
+                            <!-- ID -->
+
+                            <td>
+                                <span class="user-id">
+                                    #{{ user["id"] }}
+                                </span>
+                            </td>
+
+
+                            <!-- NAME -->
+
+                            <td>
+
+                                <div class="user-name-cell">
+
+                                    <div class="user-avatar">
+                                        {{ user["name"][0]|upper }}
+                                    </div>
+
+                                    <strong>
+                                        {{ user["name"] }}
+                                    </strong>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- EMAIL -->
+
+                            <td>
+                                <span class="user-email">
+                                    {{ user["email"] }}
+                                </span>
+                            </td>
+
+
+                            <!-- PLAN COUNT -->
+
+                            <td>
+
+                                <span class="plan-badge">
+                                    {{ user["plan_count"] }}
+                                    plan{% if user["plan_count"] != 1 %}s{% endif %}
+                                </span>
+
+                            </td>
+
+
+                            <!-- CREATED DATE -->
+
+                            <td>
+                                <span class="created-date">
+                                    {{ user["created_at"] }}
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="5" class="empty-table">
+
+                                <div class="empty-table-icon">
+                                    👥
+                                </div>
+
+                                <strong>
+                                    No users found
+                                </strong>
+
+                                <span>
+                                    Registered users will appear here.
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ==========================================
+         FOOTER
+    =========================================== -->
+
+    <footer class="footer">
+
+        <span>
+            FitBuddy
+        </span>
+
+        <span>
+            •
+        </span>
+
+        <span>
+            Admin Dashboard
+        </span>
+
+    </footer>
+
+</div>
+
+</body>
+
+</html>

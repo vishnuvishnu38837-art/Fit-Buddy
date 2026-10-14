@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Create your FitBuddy account">
+
+    <title>FitBuddy | Create Account</title>
+
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+
+    <!-- Main CSS -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body class="auth-page">
+
+
+    <!-- MAIN CONTAINER -->
+
+    <main class="auth-container">
+
+
+        <!-- BRAND -->
+
+        <div class="auth-brand">
+
+            <a href="{{ url_for('login') }}"
+               class="brand">
+
+                <span class="brand-icon">
+                    ✦
+                </span>
+
+                <span>
+                    Fit<span>Buddy</span>
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+        <!-- REGISTER CARD -->
+
+        <section class="auth-card">
+
+
+            <!-- HEADING -->
+
+            <div class="auth-heading">
+
+                <div class="auth-icon">
+                    🚀
+                </div>
+
+                <span class="mini-label">
+                    START YOUR JOURNEY
+                </span>
+
+                <h1>
+                    Create your account
+                </h1>
+
+                <p>
+                    Join FitBuddy and start building
+                    healthier habits today.
+                </p>
+
+            </div>
+
+
+
+            <!-- FLASH MESSAGES -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="alert {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+
+            <!-- REGISTER FORM -->
+
+            <form
+                method="POST"
+                action="{{ url_for('register') }}"
+                id="registerForm"
+            >
+
+
+                <!-- NAME -->
+
+                <div class="auth-field">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        maxlength="100"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- EMAIL -->
+
+                <div class="auth-field">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        maxlength="120"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="auth-field">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="auth-field">
+
+                    <label for="confirm_password">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        placeholder="Re-enter your password"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- PASSWORD MESSAGE -->
+
+                <div
+                    id="passwordMessage"
+                    class="password-message"
+                ></div>
+
+
+
+                <!-- SUBMIT BUTTON -->
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                    id="registerBtn"
+                >
+
+                    <span>
+                        Create Account
+                    </span>
+
+                    <span class="btn-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- LOGIN LINK -->
+
+            <div class="auth-switch">
+
+                <span>
+                    Already have an account?
+                </span>
+
+                <a href="{{ url_for('login') }}">
+                    Login here
+                </a>
+
+            </div>
+
+
+
+            <!-- DIVIDER -->
+
+            <div class="auth-divider">
+
+                <span></span>
+
+                <small>
+                    OR
+                </small>
+
+                <span></span>
+
+            </div>
+
+
+
+            <!-- ADMIN LOGIN -->
+
+            <div class="admin-login-box">
+
+                <div class="admin-login-icon">
+                    🛡️
+                </div>
+
+
+                <div class="admin-login-content">
+
+                    <strong>
+                        Are you an administrator?
+                    </strong>
+
+                    <span>
+                        Access the FitBuddy management portal.
+                    </span>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('admin_login') }}"
+                    class="admin-login-link"
+                >
+
+                    Admin Login
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <footer class="auth-footer">
+
+            <span>
+                FitBuddy
+            </span>
+
+            <span>
+                •
+            </span>
+
+            <span>
+                Personal Fitness Planner
+            </span>
+
+        </footer>
+
+
+    </main>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+
+</body>
+
+</html>

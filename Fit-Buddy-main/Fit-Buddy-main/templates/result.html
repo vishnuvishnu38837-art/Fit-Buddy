@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="FitBuddy - Your 7-Day Fitness Plan">
+
+    <title>FitBuddy | Your 7-Day Plan</title>
+    <!-- Google Fonts -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <!-- Main CSS -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body class="result-page">
+<div class="app-shell">
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="navbar">
+
+        <a href="{{ url_for('dashboard') }}"
+           class="brand">
+
+            <span class="brand-icon">
+                ✦
+            </span>
+
+            <span>
+                Fit<span>Buddy</span>
+            </span>
+
+        </a>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('dashboard') }}">
+                Home
+            </a>
+
+            <a href="{{ url_for('history') }}">
+                History
+            </a>
+
+        </div>
+
+
+        <div class="nav-status">
+
+            <span class="status-dot"></span>
+
+            Your Plan
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main>
+
+
+        <!-- =================================================
+             PAGE HEADER
+        ================================================== -->
+
+        <section class="page-header">
+
+            <span class="mini-label">
+                YOUR PERSONAL FITNESS PLAN
+            </span>
+
+            <h1>
+                Let's get moving,
+                {{ user["name"] }}. 👋
+            </h1>
+
+            <p>
+                Here's your structured 7-day fitness routine
+                based on your selected goal and workout level.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             USER SUMMARY
+        ================================================== -->
+
+        <section class="result-top">
+
+
+            <!-- PROFILE -->
+
+            <div class="result-profile">
+
+                <span class="mini-label">
+                    FITNESS PROFILE
+                </span>
+
+                <h2>
+                    {{ user["name"] }}
+                </h2>
+
+                <p>
+                    Your plan is ready. Stay consistent and
+                    focus on gradual progress.
+                </p>
+
+
+                <div class="profile-tags">
+
+                    <span class="tag">
+
+                        🎯
+                        {{ user["goal"].replace("_", " ").title() }}
+
+                    </span>
+
+
+                    <span class="tag">
+
+                        ⚡
+                        {{ user["level"].title() }}
+
+                    </span>
+
+
+                    <span class="tag">
+
+                        ⚖
+                        {{ user["weight"] }} kg
+
+                    </span>
+
+
+                    <span class="tag">
+
+                        ↕
+                        {{ user["height"] }} cm
+
+                    </span>
+
+
+                    <span class="tag">
+
+                        🎂
+                        {{ user["age"] }} years
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- BMI -->
+
+            <div class="bmi-card">
+
+                <span class="mini-label">
+                    BMI REFERENCE
+                </span>
+
+                <div class="bmi-value">
+                    {{ bmi }}
+                </div>
+
+                <p>
+                    Calculated from your height and weight.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             WORKOUT
+        ================================================== -->
+
+        <section>
+
+            <div class="section-heading">
+
+                <span class="mini-label">
+                    WEEKLY ROUTINE
+                </span>
+
+                <h2>
+                    Your 7-Day Workout
+                </h2>
+
+            </div>
+
+
+            <div class="workout-grid">
+
+                {% for day in workout_plan %}
+
+                <article class="workout-card">
+
+
+                    <!-- DAY HEADER -->
+
+                    <div class="day-heading">
+
+                        <div>
+
+                            <div class="day-name">
+
+                                {{ day.icon }}
+
+                                {{ day.day }}
+
+                            </div>
+
+                            <div class="day-focus">
+
+                                {{ day.focus }}
+
+                            </div>
+
+                        </div>
+
+
+                        <span class="tag">
+
+                            DAY {{ loop.index }}
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- EXERCISES -->
+
+                    <div class="exercise-list">
+
+                        {% for exercise, reps in day.exercises %}
+
+                        <div class="exercise">
+
+                            <span class="exercise-name">
+
+                                {{ exercise }}
+
+                            </span>
+
+                            <span class="exercise-reps">
+
+                                {{ reps }}
+
+                            </span>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                </article>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             NUTRITION
+        ================================================== -->
+
+        <section class="nutrition-card">
+
+            <span class="mini-label">
+                FUEL &amp; RECOVERY
+            </span>
+
+            <h2>
+                🥗 Nutrition Tips
+            </h2>
+
+
+            <div class="tip-list">
+
+                {% for tip in nutrition_tips %}
+
+                <div class="tip">
+
+                    ✓ {{ tip }}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ACTION BUTTONS
+        ================================================== -->
+
+        <div class="result-actions">
+
+            <a href="{{ url_for('dashboard') }}"
+               class="small-btn">
+
+                ← Create New Plan
+
+            </a>
+
+
+            <a href="{{ url_for('history') }}"
+               class="small-btn">
+
+                View History →
+
+            </a>
+
+        </div>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer">
+
+        <span>
+            FitBuddy
+        </span>
+
+        <span>
+            •
+        </span>
+
+        <span>
+            Personal Fitness Planner
+        </span>
+
+    </footer>
+
+
+</div>
+
+</body>
+
+</html>

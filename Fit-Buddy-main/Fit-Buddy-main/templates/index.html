@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="FitBuddy - Personal Fitness Planner">
+
+    <title>FitBuddy | Dashboard</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+
+<body class="dashboard-page">
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="dashboard-nav">
+
+        <div class="dashboard-nav-inner">
+
+            <a href="{{ url_for('dashboard') }}"
+               class="dashboard-brand">
+
+                <span class="dashboard-brand-icon">
+                    ✦
+                </span>
+
+                <span>
+                    Fit<span>Buddy</span>
+                </span>
+
+            </a>
+
+
+            <div class="dashboard-nav-right">
+
+                <div class="welcome-text">
+                    Welcome,
+                    <strong>
+                        {{ session.get('user_name', 'Buddy') }}
+                    </strong>
+                </div>
+
+
+                <a href="{{ url_for('history') }}"
+                   class="nav-link">
+                    History
+                </a>
+
+
+                <a href="{{ url_for('logout') }}"
+                   class="nav-link logout-link">
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="dashboard-main">
+
+
+        <!-- HERO -->
+
+        <section class="dashboard-hero">
+
+            <div class="dashboard-hero-content">
+
+                <span class="mini-label">
+                    YOUR PERSONAL FITNESS SPACE
+                </span>
+
+                <h1>
+                    Build a healthier
+                    <span>you.</span>
+                </h1>
+
+                <p>
+                    Tell FitBuddy a little about yourself and your fitness goal.
+                    We'll create a simple 7-day workout and nutrition plan
+                    for you.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- FLASH MESSAGES -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="dashboard-alert {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- SECTION TITLE -->
+
+        <div class="section-title">
+
+            <h2>
+                Tell us about you
+            </h2>
+
+            <p>
+                Enter your basic details so we can prepare your fitness plan.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             FITNESS FORM
+        ================================================== -->
+
+        <section class="fitness-card">
+
+            <form
+                method="POST"
+                action="{{ url_for('generate') }}"
+                class="fitness-form"
+                id="fitnessForm"
+            >
+
+
+                <!-- PERSONAL DETAILS -->
+
+                <div class="form-grid">
+
+
+                    <!-- NAME -->
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your name"
+                            value="{{ session.get('user_name', '') }}"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- AGE -->
+
+                    <div class="form-group">
+
+                        <label for="age">
+                            Age
+                        </label>
+
+                        <input
+                            type="number"
+                            id="age"
+                            name="age"
+                            placeholder="Example: 22"
+                            min="13"
+                            max="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- GENDER -->
+
+                    <div class="form-group">
+
+                        <label for="gender">
+                            Gender
+                        </label>
+
+                        <select
+                            id="gender"
+                            name="gender"
+                            required
+                        >
+
+                            <option value="">
+                                Select gender
+                            </option>
+
+                            <option value="Male">
+                                Male
+                            </option>
+
+                            <option value="Female">
+                                Female
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- HEIGHT -->
+
+                    <div class="form-group">
+
+                        <label for="height">
+                            Height (cm)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="height"
+                            name="height"
+                            placeholder="Example: 165"
+                            min="50"
+                            max="250"
+                            step="0.1"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- WEIGHT -->
+
+                    <div class="form-group">
+
+                        <label for="weight">
+                            Weight (kg)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="weight"
+                            name="weight"
+                            placeholder="Example: 60"
+                            min="20"
+                            max="300"
+                            step="0.1"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- FITNESS LEVEL -->
+
+                    <div class="form-group">
+
+                        <label for="level">
+                            Fitness Level
+                        </label>
+
+                        <select
+                            id="level"
+                            name="level"
+                            required
+                        >
+
+                            <option value="">
+                                Select your level
+                            </option>
+
+                            <option value="beginner">
+                                Beginner
+                            </option>
+
+                            <option value="intermediate">
+                                Intermediate
+                            </option>
+
+                            <option value="advanced">
+                                Advanced
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     FITNESS GOAL
+                ================================================== -->
+
+                <div class="goal-section">
+
+                    <div class="goal-label">
+                        What is your main fitness goal?
+                    </div>
+
+
+                    <div class="goal-grid">
+
+
+                        <!-- WEIGHT LOSS -->
+
+                        <div class="goal-option">
+
+                            <input
+                                type="radio"
+                                id="weight_loss"
+                                name="goal"
+                                value="weight_loss"
+                                required
+                            >
+
+                            <label
+                                for="weight_loss"
+                                class="goal-card"
+                            >
+
+                                <div class="goal-icon">
+                                    🔥
+                                </div>
+
+                                <strong>
+                                    Weight Loss
+                                </strong>
+
+                                <span>
+                                    Burn fat &amp; get active
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- MUSCLE GAIN -->
+
+                        <div class="goal-option">
+
+                            <input
+                                type="radio"
+                                id="muscle_gain"
+                                name="goal"
+                                value="muscle_gain"
+                            >
+
+                            <label
+                                for="muscle_gain"
+                                class="goal-card"
+                            >
+
+                                <div class="goal-icon">
+                                    💪
+                                </div>
+
+                                <strong>
+                                    Muscle Gain
+                                </strong>
+
+                                <span>
+                                    Build strength
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- GENERAL FITNESS -->
+
+                        <div class="goal-option">
+
+                            <input
+                                type="radio"
+                                id="general_fitness"
+                                name="goal"
+                                value="general_fitness"
+                            >
+
+                            <label
+                                for="general_fitness"
+                                class="goal-card"
+                            >
+
+                                <div class="goal-icon">
+                                    ⚡
+                                </div>
+
+                                <strong>
+                                    General Fitness
+                                </strong>
+
+                                <span>
+                                    Stay healthy &amp; active
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+                        <!-- FLEXIBILITY -->
+
+                        <div class="goal-option">
+
+                            <input
+                                type="radio"
+                                id="flexibility"
+                                name="goal"
+                                value="flexibility"
+                            >
+
+                            <label
+                                for="flexibility"
+                                class="goal-card"
+                            >
+
+                                <div class="goal-icon">
+                                    🧘
+                                </div>
+
+                                <strong>
+                                    Flexibility
+                                </strong>
+
+                                <span>
+                                    Mobility &amp; stretching
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     GENERATE PLAN
+                ================================================== -->
+
+                <div class="generate-section">
+
+
+                    <div class="generate-info">
+
+                        <div class="generate-info-icon">
+                            📋
+                        </div>
+
+                        <div class="generate-info-text">
+
+                            <strong>
+                                Your 7-Day Fitness Plan
+                            </strong>
+
+                            <span>
+                                Workout schedule + nutrition tips
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="generate-btn"
+                        id="generateBtn"
+                    >
+
+                        <span id="generateText">
+                            Generate My Plan
+                        </span>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </section>
+
+
+        <!-- =====================================================
+             QUICK LINKS
+        ====================================================== -->
+
+        <div class="section-title">
+
+            <h2>
+                Quick Access
+            </h2>
+
+            <p>
+                Manage your FitBuddy journey.
+            </p>
+
+        </div>
+
+
+        <div class="quick-grid">
+
+
+            <!-- HISTORY -->
+
+            <a
+                href="{{ url_for('history') }}"
+                class="quick-card"
+            >
+
+                <div class="quick-icon">
+                    🗓️
+                </div>
+
+                <div class="quick-content">
+
+                    <strong>
+                        My Plan History
+                    </strong>
+
+                    <span>
+                        View your previously generated plans
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- LOGOUT -->
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="quick-card"
+            >
+
+                <div class="quick-icon">
+                    👋
+                </div>
+
+                <div class="quick-content">
+
+                    <strong>
+                        Logout
+                    </strong>
+
+                    <span>
+                        Safely sign out of your account
+                    </span>
+
+                </div>
+
+            </a>
+
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <footer class="dashboard-footer">
+            © 2026 FitBuddy · Personal Fitness Planner
+        </footer>
+
+
+    </main>
+
+
+    <!-- Common JavaScript -->
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

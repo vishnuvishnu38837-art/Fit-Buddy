@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="FitBuddy Admin Login">
+
+    <title>FitBuddy | Admin Login</title>
+
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+
+    <!-- Main CSS -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body class="auth-page">
+
+
+    <!-- AUTH CONTAINER -->
+
+    <main class="auth-container">
+
+
+        <!-- BRAND -->
+
+        <div class="auth-brand">
+
+            <a href="{{ url_for('login') }}"
+               class="brand">
+
+                <span class="brand-icon">
+                    ✦
+                </span>
+
+                <span>
+                    Fit<span>Buddy</span>
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+        <!-- ADMIN LOGIN CARD -->
+
+        <section class="auth-card">
+
+
+            <!-- HEADING -->
+
+            <div class="auth-heading">
+
+                <div class="auth-icon">
+                    🛡️
+                </div>
+
+                <span class="mini-label">
+                    ADMIN PORTAL
+                </span>
+
+                <h1>
+                    Admin Login
+                </h1>
+
+                <p>
+                    Sign in to manage FitBuddy users
+                    and fitness plans.
+                </p>
+
+            </div>
+
+
+
+            <!-- FLASH MESSAGES -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="alert {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+
+            <!-- ADMIN LOGIN FORM -->
+
+            <form
+                method="POST"
+                action="{{ url_for('admin_login') }}"
+                id="adminLoginForm"
+            >
+
+
+                <!-- ADMIN EMAIL -->
+
+                <div class="auth-field">
+
+                    <label for="adminEmail">
+                        Admin Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="adminEmail"
+                        name="email"
+                        placeholder="admin@fitbuddy.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- ADMIN PASSWORD -->
+
+                <div class="auth-field">
+
+                    <label for="adminPassword">
+                        Admin Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="adminPassword"
+                        name="password"
+                        placeholder="Enter admin password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    class="primary-btn"
+                    type="submit"
+                    id="adminLoginBtn"
+                >
+
+                    <span>
+                        Admin Login
+                    </span>
+
+                    <span class="btn-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- USER LOGIN -->
+
+            <div class="auth-switch">
+
+                <span>
+                    Are you a user?
+                </span>
+
+                <a href="{{ url_for('login') }}">
+                    User Login
+                </a>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <footer class="auth-footer">
+
+            <span>
+                FitBuddy Admin Portal
+            </span>
+
+        </footer>
+
+
+    </main>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="FitBuddy - Fitness Plan History">
+
+    <title>FitBuddy | History</title>
+
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+
+    <!-- Main CSS -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body class="history-page">
+
+<div class="app-shell">
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="dashboard-nav">
+    <div class="dashboard-nav-inner">
+
+        <!-- Brand -->
+        <a href="{{ url_for('dashboard') }}" class="dashboard-brand">
+            <span class="brand-icon">✦</span>
+            <span class="brand">FitBuddy</span>
+        </a>
+
+        <!-- Navigation Buttons -->
+        <div class="dashboard-nav-right">
+
+            <a href="{{ url_for('dashboard') }}" class="nav-button">
+                🏠 Home
+            </a>
+
+            <a href="{{ url_for('history') }}" class="nav-button active">
+                📋 History
+            </a>
+
+            <a href="{{ url_for('history') }}" class="nav-button">
+                📅 Plan History
+            </a>
+
+        </div>
+
+    </div>
+</nav>
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main>
+
+
+        <!-- PAGE HEADER -->
+
+        <section class="page-header">
+
+            <span class="mini-label">
+                YOUR FITNESS JOURNEY
+            </span>
+
+            <h1>
+                Plan History
+            </h1>
+
+            <p>
+                View the fitness plans you have previously
+                generated with FitBuddy.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             HISTORY LIST
+        ================================================== -->
+
+        <section class="history-list">
+
+            {% if plans %}
+
+                {% for plan in plans %}
+
+                <div class="history-card">
+
+
+                    <!-- PLAN INFORMATION -->
+
+                    <div class="history-main">
+
+                        <h3>
+                            {{ plan["name"] }}
+                        </h3>
+
+
+                        <div class="history-meta">
+
+                            <span>
+                                🎯
+                                {{ plan["goal"].replace("_", " ").title() }}
+                            </span>
+
+
+                            <span>
+                                ⚡
+                                {{ plan["level"].title() }}
+                            </span>
+
+
+                            <span>
+                                ⚖
+                                {{ plan["weight"] }} kg
+                            </span>
+
+
+                            <span>
+                                📅
+                                {{ plan["created_at"] }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- VIEW PLAN -->
+
+                    <a
+                        href="{{ url_for(
+                            'result',
+                            plan_id=plan['plan_id']
+                        ) }}"
+                        class="small-btn"
+                    >
+                        View Plan →
+                    </a>
+
+
+                </div>
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+                <!-- EMPTY HISTORY -->
+
+                <div class="history-card empty-history">
+
+                    <div class="history-main">
+
+                        <div class="empty-history-icon">
+                            📋
+                        </div>
+
+                        <h3>
+                            No plans yet
+                        </h3>
+
+                        <div class="history-meta">
+
+                            <span>
+                                Create your first fitness plan
+                                from the dashboard.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <a
+                        href="{{ url_for('dashboard') }}"
+                        class="small-btn"
+                    >
+                        Create Plan
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- BACK TO DASHBOARD -->
+
+        <div class="history-back">
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="small-btn"
+            >
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <span>
+            FitBuddy
+        </span>
+
+        <span>
+            •
+        </span>
+
+        <span>
+            Plan History
+        </span>
+
+    </footer>
+
+
+</div>
+
+</body>
+
+</html>
